@@ -1,4 +1,4 @@
-##Ownership Rules in Rust
+## Ownership Rules in Rust
 
 1. **Each value in Rust has a variable that's called its _owner_.**
 2. **There can only be one owner at a time.**
