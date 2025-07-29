@@ -30,14 +30,18 @@ impl Config {
     // It expects at least three arguments: the program name, the query, and the filename
     // If the arguments are insufficient, it returns an error.
     // It also checks the environment variable CASE_INSENSITIVE to determine if the search should be case sensitive.
-    pub fn new(args: &[String]) -> Result<Config, &str> {
-        if args.len() < 3 {
-            return Err("Not enough arguments. Usage: <program> <query> <filename>");
-        }
+    pub fn new(mut args: env::Args) -> Result<Config, &'static str> {
+        args.next(); // Skip the first argument (the program name)
 
-        // The query and filename are cloned to avoid ownership issues.
-        let query = args[1].clone();
-        let filename = args[2].clone();
+        let query = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Didn't get a query string"),
+        };
+
+        let filename = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Didn't get a file name"),
+        };
 
         // export CASE_INSENSITIVE=true to make it case insensitive
         // unset CASE_INSENSITIVE to make it case sensitive
@@ -54,14 +58,10 @@ impl Config {
 // It includes functions to search for a query in the contents of a file,
 // It returns a vector of lines that contain the query.
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
-    let mut results = Vec::new();
-
-    for line in contents.lines() {
-        if line.contains(query) {
-            results.push(line);
-        }
-    }
-    results
+    contents
+        .lines()
+        .filter(|line| line.contains(query))
+        .collect()
 }
 
 // This function performs a case-insensitive search for a query in the contents of a file.
