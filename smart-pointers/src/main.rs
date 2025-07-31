@@ -4,13 +4,22 @@ use deref_trait::deref_trait;
 mod drop_trait;
 use drop_trait::drop_trait;
 
+mod reference_count;
+use reference_count::reference_count;
+
 fn main() {
     // Call the functions to demonstrate deref and drop traits.
     // The deref_trait function shows how to use the Deref trait with a custom smart pointer.
     println!("Calling deref_trait function:");
     deref_trait();
+    println!();
 
     // The drop_trait function demonstrates the Drop trait with a custom smart pointer.
     println!("Calling drop_trait function:");
     drop_trait();
+    println!();
+
+    // The reference_count function shows how reference counting works with Rc.
+    println!("Calling reference_count function:");
+    reference_count();
 }

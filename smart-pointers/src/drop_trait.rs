@@ -13,10 +13,10 @@ impl Drop for CustomSmartPointer {
 
 // This is useful for managing resources like memory, file handles, etc.
 pub fn drop_trait() {
-    let c = CustomSmartPointer {
+    let _c = CustomSmartPointer {
         data: String::from("my stuff"),
     };
-    let d = CustomSmartPointer {
+    let _d = CustomSmartPointer {
         data: String::from("other stuff"),
     };
     println!("CustomSmartPointers created.");
